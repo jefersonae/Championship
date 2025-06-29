@@ -9,15 +9,13 @@ public class Athlete {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(unique = true, nullable = false)
+    private Long enrollment;
 
     @Column(nullable = false)
     private String fullName;
 
     private String nickname;
-
-    @Column(unique = true, nullable = false)
-    private int enrollment;
 
     private String phone;
 
