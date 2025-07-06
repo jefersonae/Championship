@@ -2,6 +2,7 @@ package ifs.championship.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -38,4 +39,12 @@ public class Team {
             inverseJoinColumns = @JoinColumn(name = "athlete_id")
     )
     private List<Athlete> athletes;
+
+    @OneToMany(mappedBy = "teamA")
+    @ToString.Exclude
+    private List<Match> matchesWithTeamA;
+
+    @OneToMany(mappedBy = "teamB")
+    @ToString.Exclude
+    private List<Match> matchesWithTeamB;
 }

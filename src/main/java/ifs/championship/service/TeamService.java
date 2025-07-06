@@ -4,10 +4,7 @@ import ifs.championship.model.Athlete;
 import ifs.championship.model.Course;
 import ifs.championship.model.Sport;
 import ifs.championship.model.Team;
-import ifs.championship.repository.AthleteRepository;
-import ifs.championship.repository.CourseRepository;
-import ifs.championship.repository.SportRepository;
-import ifs.championship.repository.TeamRepository;
+import ifs.championship.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -26,6 +23,9 @@ public class TeamService {
     @Autowired
     private SportRepository sportRepository;
 
+    @Autowired
+    private CaptainRepository captainRepository;
+
     public Team createTeam(String teamName, Long courseId, Long sportId, Long captainId, List<Long> athleteEnrollment) {
 
         Course course = courseRepository.findById(courseId)
@@ -36,6 +36,12 @@ public class TeamService {
 
         Athlete captain = athleteRepository.findById(captainId)
                 .orElseThrow(() -> new IllegalArgumentException("Captain not found with id: " + captainId));
+
+        boolean isCaptain = captainRepository.existsByAthleteAndCourseSport(captain, course, sport);
+
+        if(!isCaptain) {
+            throw new IllegalStateException("The specified captain is not registered for the course and sport.");
+        }
 
         List<Athlete> athletes = athleteRepository.findAllById(athleteEnrollment);
         if(athletes.size() != athleteEnrollment.size()) {
