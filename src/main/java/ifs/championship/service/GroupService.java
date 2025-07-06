@@ -74,8 +74,8 @@ public class GroupService {
            for (int j = i + 1; j < teams.size(); j++) {
                Match newMatch = new Match();
                newMatch.setGroup(group);
-               newMatch.setTeam1(teams.get(i));
-               newMatch.setTeam2(teams.get(j));
+               newMatch.setTeamA(teams.get(i));
+               newMatch.setTeamB(teams.get(j));
 
                matchRepository.save(newMatch);
            }
