@@ -4,7 +4,9 @@ import ifs.championship.dto.AthleteRegisterDTO;
 import ifs.championship.model.Athlete;
 import ifs.championship.repository.AthleteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AthleteService {
     @Autowired
     private AthleteRepository athleteRepository;

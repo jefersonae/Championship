@@ -16,4 +16,8 @@ public class Course {
 
     @Column(nullable = false)
     private String level; // "INTEGRADO", "TECNICO", "SUPERIOR"
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "sport_id", nullable = false)
+    private Sport sport;
 }

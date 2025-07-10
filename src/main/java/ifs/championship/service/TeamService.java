@@ -6,9 +6,11 @@ import ifs.championship.model.Sport;
 import ifs.championship.model.Team;
 import ifs.championship.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class TeamService {
 
     @Autowired
@@ -37,7 +39,7 @@ public class TeamService {
         Athlete captain = athleteRepository.findById(captainId)
                 .orElseThrow(() -> new IllegalArgumentException("Captain not found with id: " + captainId));
 
-        boolean isCaptain = captainRepository.existsByAthleteAndCourseSport(captain, course, sport);
+        boolean isCaptain = captainRepository.existsByAthleteAndCourseAndSport(captain, course, sport);
 
         if(!isCaptain) {
             throw new IllegalStateException("The specified captain is not registered for the course and sport.");

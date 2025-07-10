@@ -7,6 +7,5 @@ import ifs.championship.model.Sport;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CaptainRepository extends JpaRepository<Captain, Long> {
-
-    boolean existsByAthleteAndCourseSport(Athlete athlete, Course course, Sport sport);
+    boolean existsByAthleteAndCourseAndSport(Athlete athlete, Course course, Sport sport);
 }

@@ -5,10 +5,11 @@ import ifs.championship.model.Group;
 import ifs.championship.model.Inscription;
 import ifs.championship.model.Match;
 import ifs.championship.model.Team;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
+@Service
 public class ClassificationService {
 
     public List<ClassificationDTO> calculateClassification(Group group) {
