@@ -2,8 +2,10 @@ package ifs.championship.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(of = "name")
 @Entity
 public class Sport {
 

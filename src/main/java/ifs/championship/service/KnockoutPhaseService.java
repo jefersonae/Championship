@@ -4,6 +4,7 @@ import ifs.championship.dto.ClassificationDTO;
 import ifs.championship.model.*;
 import ifs.championship.repository.EventRepository;
 import ifs.championship.repository.MatchRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ public class KnockoutPhaseService {
     @Autowired
     private MatchRepository matchRepository;
 
+    @Transactional
     public List<Match> createKnockoutPhase(Long eventId) {
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new IllegalArgumentException("Event not found with id: " + eventId));
@@ -62,21 +64,28 @@ public class KnockoutPhaseService {
             teamByes.add(firstPlaces.get(i).getTeam());
         }
 
-        List<Team> teams = new ArrayList<>();
+        // Pote 1: Apenas os primeiros colocados que NÃO tiveram bye
+        List<Team> pote1 = new ArrayList<>(
+                firstPlaces.stream().skip(numberByes).map(ClassificationDTO::getTeam).toList()
+        );
 
-        teams.addAll(firstPlaces.stream().skip(numberByes).map(ClassificationDTO::getTeam).toList());
+        // Pote 2: TODOS os segundos colocados
+        List<Team> pote2 = new ArrayList<>(
+                secondPlaces.stream().map(ClassificationDTO::getTeam).toList()
+        );
 
-        teams.addAll(secondPlaces.stream().map(ClassificationDTO::getTeam).toList());
-
-        Collections.shuffle(teams); // Embaralha para o sorteio
+        // Embaralha cada pote de forma independente
+        Collections.shuffle(pote1);
+        Collections.shuffle(pote2);
 
         List<Match> knockoutMatches = new ArrayList<>();
         String phase = "ELIMINATORIA_RODADA_1";
 
-        for (int i = 0; i < teams.size() / 2; i++) {
+        // Monta os jogos pegando um time de cada pote
+        for (int i = 0; i < pote1.size(); i++) {
             Match match = new Match();
-            match.setTeamA(teams.get(i));
-            match.setTeamB(teams.get(i +  teams.size() / 2));
+            match.setTeamA(pote1.get(i));
+            match.setTeamB(pote2.get(i));
             match.setPhase(phase);
             match.setStatus("AGENDADO");
             match.setGroup(null);

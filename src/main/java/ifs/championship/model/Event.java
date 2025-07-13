@@ -4,11 +4,13 @@ import ifs.championship.model.enums.CourseLevel;
 import ifs.championship.model.enums.EventStatus;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(of = "id")
 @Entity
 public class Event {
 
@@ -31,7 +33,7 @@ public class Event {
     @ToString.Exclude
     private List<Inscription> inscriptions;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<Group> groups;
 }

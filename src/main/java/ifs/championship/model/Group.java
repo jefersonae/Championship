@@ -2,11 +2,13 @@ package ifs.championship.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(of = "id")
 @Entity
 @Table(name = "\"group\"")
 public class Group {
