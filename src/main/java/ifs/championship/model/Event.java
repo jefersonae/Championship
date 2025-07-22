@@ -5,7 +5,6 @@ import ifs.championship.model.enums.EventStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import java.util.List;
 
@@ -27,10 +26,8 @@ public class Event {
     private EventStatus status;
 
     @OneToMany(mappedBy = "event")
-    @ToString.Exclude
     private List<Inscription> inscriptions;
 
     @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
-    @ToString.Exclude
     private List<Group> groups;
 }

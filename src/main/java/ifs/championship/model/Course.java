@@ -1,9 +1,13 @@
 package ifs.championship.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import ifs.championship.model.enums.CourseLevel;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(of = "name")
@@ -17,9 +21,9 @@ public class Course {
     @Column(unique = true)
     private String name;
 
-    private String level; // "INTEGRADO", "TECNICO", "SUPERIOR"
+    @Enumerated(EnumType.STRING)
+    private CourseLevel level; // "INTEGRADO", "TECNICO", "SUPERIOR"
 
     @OneToOne(mappedBy = "course") // 'mappedBy' aponta para o campo "curso" na entidade Coordenador
-    @ToString.Exclude
     private Coordinator coordinator;
 }

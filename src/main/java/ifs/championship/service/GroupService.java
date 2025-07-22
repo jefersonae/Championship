@@ -52,20 +52,24 @@ public class GroupService {
             Group newGroup = new Group();
             newGroup.setName("Grupos " + groupName++);
             newGroup.setEvent(event);
-            groupRepository.save(newGroup);
 
+            List<Inscription> groupInscriptions = new ArrayList<>();
             for (int i = 0; i < size; i++) {
                 Inscription inscription = inscriptions.get(startIndex++);
                 inscription.setGroup(newGroup);
                 inscriptionRepository.save(inscription);
+                groupInscriptions.add(inscription);
             }
+
+            newGroup.setInscriptions(groupInscriptions);
+            groupRepository.save(newGroup);
 
             groups.add(newGroup);
         }
         return groups;
     }
 
-    private void generateMatchesForGroups(Group group,List<Inscription> groupInscriptions) {
+    public void generateMatchesForGroups(Group group, List<Inscription> groupInscriptions) {
        List<Team> teams = new ArrayList<>();
        for (Inscription inscription : groupInscriptions) {
            teams.add(inscription.getTeam());
@@ -76,7 +80,8 @@ public class GroupService {
                newMatch.setGroup(group);
                newMatch.setTeamA(teams.get(i));
                newMatch.setTeamB(teams.get(j));
-
+               newMatch.setPhase("GRUPO");
+               newMatch.setStatus("AGENDADO");
                matchRepository.save(newMatch);
            }
        }

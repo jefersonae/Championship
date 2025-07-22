@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
@@ -40,7 +41,7 @@ public class DataInitializer implements CommandLineRunner {
 
         List<Course> courses = new ArrayList<>();
         for (int i = 1; i <= 6; i++) {
-            courses.add(createCourse("Curso de Tecnologia " + i, "SUPERIOR"));
+            courses.add(createCourse("Curso de Tecnologia " + i, CourseLevel.SUPERIOR));
         }
         courseRepository.saveAll(courses);
 
@@ -62,31 +63,60 @@ public class DataInitializer implements CommandLineRunner {
             inscriptionRepository.save(subscribeEquipeNoEvento(equipe, eventFutsal));
         }
 
-        // --- PASSO 3: GERAR A FASE DE GRUPOS ---
+        // --- PASSO 3: GERAR OS GRUPOS ---
         System.out.println("Gerando a FASE DE GRUPOS para o evento: " + eventFutsal.getName());
-        groupService.generateGroupsForEvent(eventFutsal.getId());
+        List<Group> groupStage = groupService.generateGroupsForEvent(eventFutsal.getId());
 
-        // --- PASSO 4: REGISTRAR RESULTADOS DE ALGUNS JOGOS ---
-        List<Match> groupStageMatches = matchRepository.findByPhase("GROUP_STAGE");
-        if (groupStageMatches != null && !groupStageMatches.isEmpty()) {
-            System.out.println("Encontrados " + groupStageMatches.size() + " jogos. Registrando placares...");
-            // Registra resultado para os jogos para que a classificação possa ser calculada
-            for(Match match : groupStageMatches) {
-                registrarPlacar(match, (int)(Math.random() * 5), (int)(Math.random() * 5));
+        for (Group group : groupStage) {
+            System.out.println("Grupo " + group.getName() + " criado com " + group.getInscriptions().size() + " equipes.");
+        }
+
+        // --- PASSO 4: GERAR AS PARTIDAS DOS GRUPOS ---
+        System.out.println("Gerando partidas para os grupos...");
+        for (Group group : groupStage) {
+            groupService.generateMatchesForGroups(group, group.getInscriptions());
+        }
+
+        // --- PASSO 5:  GERAR A CLASSIFICAÇÃO ---
+        for (Group group : groupStage) {
+            List<Match> matches = matchRepository.findByGroupId(group.getId());
+            for (Match match : matches) {
+                registrarPlacar(match, 2, 1);
             }
-        } else {
-            System.out.println("Nenhum jogo da fase de grupos foi encontrado para registrar placares.");
         }
 
         // --- PASSO 5: GERAR A FASE ELIMINATÓRIA ---
         System.out.println("Gerando a FASE ELIMINATÓRIA para o evento: " + eventFutsal.getName());
-        knockoutPhaseService.createKnockoutPhase(eventFutsal.getId());
+        List<Match> eliminatoryMatches = knockoutPhaseService.createKnockoutPhase(eventFutsal.getId());
+        System.out.println("Detalhes das partidas eliminatórias:");
+        for (Match match : eliminatoryMatches) {
+            String teamA = match.getTeamA().getName();
+            String teamB = match.getTeamB().getName();
+            String status = match.getStatus();
+            String phase = match.getPhase();
+            System.out.printf("Confronto: %s x %s | Status: %s | Fase: %s \n", teamA, teamB, status, phase);
+        }
 
-        System.out.println("### Banco de dados populado com sucesso! ###");
+        // --- PASSO 6: SIMULAR RESULTADOS DAS PARTIDAS ELIMINATÓRIAS ---
+        Random rand = new Random();
+        for (Match match : eliminatoryMatches) {
+            int placarA = rand.nextInt(6); // placar entre 0 e 5
+            int placarB = rand.nextInt(6);
+            registrarPlacar(match, placarA, placarB);
+        }
+
+        for (Match match : eliminatoryMatches) {
+            String teamA = match.getTeamA().getName();
+            String teamB = match.getTeamB().getName();
+            int placarA = match.getTeamAScore();
+            int placarB = match.getTeamBScore();
+            String status = match.getStatus();
+            System.out.printf("Resultado FASE ELIMINATÓRIA: %s %d x %d %s | STATUS: %s\n", teamA, placarA, placarB, teamB, status);
+        }
     }
 
     // --- MÉTODOS AUXILIARES ---
-    private Course createCourse(String nome, String nivel) {
+    private Course createCourse(String nome, CourseLevel nivel) {
         Course course = new Course(); course.setName(nome); course.setLevel(nivel); return course;
     }
     private Sport createSport(String nome, int min, int max) {

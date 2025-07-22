@@ -30,6 +30,7 @@ public class KnockoutPhaseService {
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new IllegalArgumentException("Event not found with id: " + eventId));
 
+        // Validação e coleta de classificados
         for (Group group : event.getGroups()) {
             for (Match match : group.getMatches()) {
                 if (match.getStatus() == null || !match.getStatus().matches("FINALIZADO|WO")) {
@@ -37,10 +38,8 @@ public class KnockoutPhaseService {
                 }
             }
         }
-
         List<ClassificationDTO> firstPlaces = new ArrayList<>();
         List<ClassificationDTO> secondPlaces = new ArrayList<>();
-
         for (Group group : event.getGroups()) {
             List<ClassificationDTO> classification = classificationService.calculateClassification(group);
             if (classification.size() < 2) {
@@ -50,37 +49,32 @@ public class KnockoutPhaseService {
             secondPlaces.add(classification.get(1));
         }
 
+        // Lógica de "byes"
         int totalTeams = firstPlaces.size() + secondPlaces.size();
         int sizeKey = nextPowerOfTwo(totalTeams);
         int numberByes = sizeKey - totalTeams;
-
         firstPlaces.sort(Comparator.comparing(ClassificationDTO::getPoints)
                 .thenComparing(ClassificationDTO::getGoalDifference)
                 .thenComparing(ClassificationDTO::getGoalsFor)
                 .reversed());
-
         List<Team> teamByes = new ArrayList<>();
         for (int i = 0; i < numberByes; i++) {
             teamByes.add(firstPlaces.get(i).getTeam());
         }
 
-        // Pote 1: Apenas os primeiros colocados que NÃO tiveram bye
+        // Sorteio dos potes
         List<Team> pote1 = new ArrayList<>(
                 firstPlaces.stream().skip(numberByes).map(ClassificationDTO::getTeam).toList()
         );
-
-        // Pote 2: TODOS os segundos colocados
         List<Team> pote2 = new ArrayList<>(
                 secondPlaces.stream().map(ClassificationDTO::getTeam).toList()
         );
-
-        // Embaralha cada pote de forma independente
         Collections.shuffle(pote1);
         Collections.shuffle(pote2);
 
-        List<Match> knockoutMatches = new ArrayList<>();
-        String phase = "ELIMINATORIA_RODADA_1";
+        String phase = getPhaseName(sizeKey);
 
+        List<Match> knockoutMatches = new ArrayList<>();
         // Monta os jogos pegando um time de cada pote
         for (int i = 0; i < pote1.size(); i++) {
             Match match = new Match();
@@ -101,5 +95,21 @@ public class KnockoutPhaseService {
             power *= 2;
         }
         return power;
+    }
+
+    private String getPhaseName(int bracketSize) {
+        switch (bracketSize) {
+            case 16:
+                return "OITAVAS_DE_FINAL";
+            case 8:
+                return "QUARTAS_DE_FINAL";
+            case 4:
+                return "SEMIFINAL";
+            case 2:
+                return "FINAL";
+            default:
+                // Fallback caso o número seja diferente (ex: 32)
+                return "ELIMINATORIA_RODADA_DE_" + bracketSize;
+        }
     }
 }

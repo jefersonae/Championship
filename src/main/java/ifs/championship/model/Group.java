@@ -24,11 +24,8 @@ public class Group {
     private Event event;
 
     @OneToMany(mappedBy = "group")
-    @ToString.Exclude
     private List<Inscription> inscriptions;
 
     @OneToMany(mappedBy = "group")
-    @ToString.Exclude
     private List<Match> matches;
-
 }
