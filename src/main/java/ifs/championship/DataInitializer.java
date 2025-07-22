@@ -85,7 +85,7 @@ public class DataInitializer implements CommandLineRunner {
             }
         }
 
-        // --- PASSO 5: GERAR A FASE ELIMINATÓRIA ---
+        // --- PASSO 6: GERAR A FASE ELIMINATÓRIA ---
         System.out.println("Gerando a FASE ELIMINATÓRIA para o evento: " + eventFutsal.getName());
         List<Match> eliminatoryMatches = knockoutPhaseService.createKnockoutPhase(eventFutsal.getId());
         System.out.println("Detalhes das partidas eliminatórias:");
@@ -95,23 +95,6 @@ public class DataInitializer implements CommandLineRunner {
             String status = match.getStatus();
             String phase = match.getPhase();
             System.out.printf("Confronto: %s x %s | Status: %s | Fase: %s \n", teamA, teamB, status, phase);
-        }
-
-        // --- PASSO 6: SIMULAR RESULTADOS DAS PARTIDAS ELIMINATÓRIAS ---
-        Random rand = new Random();
-        for (Match match : eliminatoryMatches) {
-            int placarA = rand.nextInt(6); // placar entre 0 e 5
-            int placarB = rand.nextInt(6);
-            registrarPlacar(match, placarA, placarB);
-        }
-
-        for (Match match : eliminatoryMatches) {
-            String teamA = match.getTeamA().getName();
-            String teamB = match.getTeamB().getName();
-            int placarA = match.getTeamAScore();
-            int placarB = match.getTeamBScore();
-            String status = match.getStatus();
-            System.out.printf("Resultado FASE ELIMINATÓRIA: %s %d x %d %s | STATUS: %s\n", teamA, placarA, placarB, teamB, status);
         }
     }
 
