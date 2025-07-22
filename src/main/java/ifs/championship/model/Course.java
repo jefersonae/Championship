@@ -14,10 +14,9 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String name;
 
-    @Column(nullable = false)
     private String level; // "INTEGRADO", "TECNICO", "SUPERIOR"
 
     @OneToOne(mappedBy = "course") // 'mappedBy' aponta para o campo "curso" na entidade Coordenador

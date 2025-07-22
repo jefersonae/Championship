@@ -17,11 +17,11 @@ public class Inscription {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="team_id", nullable = false)
+    @JoinColumn(name="team_id")
     private Team team;
 
     @ManyToOne
-    @JoinColumn(name="event_id", nullable = false)
+    @JoinColumn(name="event_id")
     private Event event;
 
     @ManyToOne

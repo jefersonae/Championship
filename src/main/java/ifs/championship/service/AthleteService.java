@@ -12,15 +12,9 @@ public class AthleteService {
     private AthleteRepository athleteRepository;
 
     public Athlete createAthlete(AthleteRegisterDTO athleteDTO) {
-
-        if (athleteRepository.findById(athleteDTO.getEnrollment()).isPresent()) {
-            throw new IllegalArgumentException("Athlete with this enrollment already exists");
-        }
-
         Athlete newAthlete = new Athlete();
         newAthlete.setFullName(athleteDTO.getFullName());
-        newAthlete.setNickname(athleteDTO.getNickname());
-        newAthlete.setEnrollment(athleteDTO.getEnrollment());
+        newAthlete.setNickName(athleteDTO.getNickName());
         newAthlete.setPhone(athleteDTO.getPhone());
         newAthlete.setPass(athleteDTO.getPass());
 

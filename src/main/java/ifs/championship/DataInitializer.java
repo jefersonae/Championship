@@ -52,7 +52,6 @@ public class DataInitializer implements CommandLineRunner {
         for (int i = 0; i < 6; i++) {
             Course cursoAtual = courses.get(i);
 
-            // Lógica corrigida para pegar 5 jogadores únicos por equipe
             int startIndex = i * 5;
             int endIndex = startIndex + 5;
             List<Athlete> jogadores = athletes.subList(startIndex, endIndex);
@@ -99,7 +98,7 @@ public class DataInitializer implements CommandLineRunner {
     private List<Athlete> createAthletes(int quantidade) {
         List<Athlete> athletes = new ArrayList<>();
         for (int i = 1; i <= quantidade; i++) {
-            Athlete a = new Athlete(); a.setFullName("Athlete " + i); a.setNickname("Player" + i); a.setPass("senha"); athletes.add(a);
+            Athlete a = new Athlete(); a.setFullName("Athlete " + i); a.setNickName("Player" + i); a.setPass("senha"); athletes.add(a);
         }
         return athletes;
     }

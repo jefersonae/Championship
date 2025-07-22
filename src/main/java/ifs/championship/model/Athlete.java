@@ -14,13 +14,11 @@ public class Athlete {
     @Column(unique = true, nullable = false)
     private Long enrollment;
 
-    @Column(nullable = false)
     private String fullName;
 
-    private String nickname;
+    private String nickName;
 
     private String phone;
 
-    @Column(nullable = false)
     private String pass;
 }

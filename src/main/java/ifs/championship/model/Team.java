@@ -19,19 +19,18 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String name;
 
     @ManyToOne
-    @JoinColumn(name= "course_id", nullable = false)
+    @JoinColumn(name= "course_id")
     private Course course;
 
     @ManyToOne
-    @JoinColumn(name = "sport_id", nullable = false)
+    @JoinColumn(name = "sport_id")
     private Sport sport;
 
     @OneToOne
-    @JoinColumn(name = "captain_id", nullable = false)
+    @JoinColumn(name = "captain_id")
     private Athlete technical;
 
     @ManyToMany

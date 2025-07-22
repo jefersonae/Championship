@@ -8,6 +8,7 @@ import ifs.championship.service.AthleteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,7 @@ public class AthleteController {
     private AthleteService athleteService;
 
     @PostMapping
-    public ResponseEntity<?> createAthlete(AthleteRegisterDTO athleteDTO) {
+    public ResponseEntity<?> createAthlete(@RequestBody AthleteRegisterDTO athleteDTO) {
         try {
             Athlete athleteRegistered = athleteService.createAthlete(athleteDTO);
             return ResponseEntity.status(201).body(athleteRegistered);

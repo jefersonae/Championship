@@ -16,18 +16,18 @@ public class Match {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "group_id", nullable = true)
+    @JoinColumn(name = "group_id")
     private Group group;
 
     @Column(nullable = false)
     private String phase; // Ex: "Fase de Grupos", "Quartas de Final", "Semifinal", "Final"
 
     @ManyToOne
-    @JoinColumn(name="teamA_id", nullable = false)
+    @JoinColumn(name="teamA_id")
     private Team teamA;
 
     @ManyToOne
-    @JoinColumn(name="teamB_id", nullable = false)
+    @JoinColumn(name="teamB_id")
     private Team teamB;
 
     private Integer teamAScore;

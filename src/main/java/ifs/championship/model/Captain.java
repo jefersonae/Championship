@@ -14,14 +14,14 @@ public class Captain {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "athlete_id", nullable = false)
+    @JoinColumn(name = "athlete_id")
     private Athlete athlete;
 
     @ManyToOne
-    @JoinColumn(name = "course_id", nullable = false)
+    @JoinColumn(name = "course_id")
     private Course course;
 
     @ManyToOne
-    @JoinColumn(name = "sport_id", nullable = false)
+    @JoinColumn(name = "sport_id")
     private Sport sport;
 }

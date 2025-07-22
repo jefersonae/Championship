@@ -13,15 +13,14 @@ public class Coordinator {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long enrollment;
 
-    @Column(nullable = false)
     private String name;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String pass;
 
     private String email;
 
     @OneToOne
-    @JoinColumn(name = "course_id", unique = true)
+    @JoinColumn(name = "course_id")
     private Course course;
 }

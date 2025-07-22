@@ -18,15 +18,12 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private CourseLevel courseLevel;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private EventStatus status;
 
     @OneToMany(mappedBy = "event")
