@@ -2,10 +2,8 @@ package ifs.championship.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(of = "enrollment")
 @Entity
 public class Coordinator {
 

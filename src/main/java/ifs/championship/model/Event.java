@@ -4,12 +4,10 @@ import ifs.championship.model.enums.CourseLevel;
 import ifs.championship.model.enums.EventStatus;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
 @Data
-@EqualsAndHashCode(of = "id")
 @Entity
 public class Event {
 

@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class CoordinatorService {
 
@@ -46,8 +44,8 @@ public class CoordinatorService {
         try {
             return captainRepository.save(newCaptain);
         } catch (DataIntegrityViolationException e) {
-            throw new IllegalStateException("Já existe um técnico designado para o curso de "
-                    + courseCoordinator.getName() + " no esporte " + sport.getName() + ".");
+            throw new IllegalStateException("There is already a captain registered for the course "
+                    + courseCoordinator.getName() + " in sport " + sport.getName() + ".");
         }
     }
 }

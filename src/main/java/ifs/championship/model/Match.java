@@ -2,12 +2,10 @@ package ifs.championship.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
 
 @Data
-@EqualsAndHashCode(of = "id")
 @Entity
 public class Match {
 

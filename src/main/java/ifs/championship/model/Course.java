@@ -1,16 +1,10 @@
 package ifs.championship.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import ifs.championship.model.enums.CourseLevel;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-
-import java.util.List;
 
 @Data
-@EqualsAndHashCode(of = "name")
 @Entity
 public class Course {
 
