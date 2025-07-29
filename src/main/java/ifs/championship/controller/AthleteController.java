@@ -7,10 +7,7 @@ import ifs.championship.model.Team;
 import ifs.championship.service.AthleteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/athletes")
@@ -26,6 +23,21 @@ public class AthleteController {
             return ResponseEntity.status(201).body(athleteRegistered);
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAllAthletes() {
+        return ResponseEntity.ok(athleteService.getAllAthletes());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getAthleteById(@PathVariable Long id) {
+        Athlete athlete = athleteService.getAthleteById(id);
+        if (athlete != null) {
+            return ResponseEntity.ok(athlete);
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 }

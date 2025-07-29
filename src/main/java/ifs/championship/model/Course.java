@@ -1,5 +1,6 @@
 package ifs.championship.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import ifs.championship.model.enums.CourseLevel;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -19,5 +20,6 @@ public class Course {
     private CourseLevel level; // "INTEGRADO", "TECNICO", "SUPERIOR"
 
     @OneToOne(mappedBy = "course") // 'mappedBy' aponta para o campo "curso" na entidade Coordenador
+    @JsonManagedReference
     private Coordinator coordinator;
 }

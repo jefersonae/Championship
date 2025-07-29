@@ -37,4 +37,19 @@ public class MatchController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping
+    public ResponseEntity<?> getAllMatches() {
+        return ResponseEntity.ok(matchService.getAllMatches());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getMatchById(@PathVariable Long id) {
+        Match match = matchService.getMatchById(id);
+        if (match != null) {
+            return ResponseEntity.ok(match);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

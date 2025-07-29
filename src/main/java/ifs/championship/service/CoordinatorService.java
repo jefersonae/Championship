@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CoordinatorService {
 
@@ -47,5 +49,14 @@ public class CoordinatorService {
             throw new IllegalStateException("There is already a captain registered for the course "
                     + courseCoordinator.getName() + " in sport " + sport.getName() + ".");
         }
+    }
+
+    public List<Coordinator> getAllCoordinators() {
+        return coordinatorRepository.findAll();
+    }
+
+    public Coordinator getCoordinatorById(Long id) {
+        return coordinatorRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Coordinator not found with id: " + id));
     }
 }

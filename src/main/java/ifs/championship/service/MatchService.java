@@ -6,6 +6,8 @@ import ifs.championship.repository.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MatchService {
 
@@ -49,5 +51,14 @@ public class MatchService {
         match.setTeamBScore(null);
 
         return matchRepository.save(match);
+    }
+
+    public List<Match> getAllMatches() {
+        return matchRepository.findAll();
+    }
+
+    public Match getMatchById(Long id) {
+        return matchRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Match not found"));
     }
 }

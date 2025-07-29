@@ -1,5 +1,6 @@
 package ifs.championship.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,5 +21,6 @@ public class Coordinator {
 
     @OneToOne
     @JoinColumn(name = "course_id")
+    @JsonBackReference
     private Course course;
 }

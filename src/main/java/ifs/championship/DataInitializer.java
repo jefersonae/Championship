@@ -111,7 +111,7 @@ public class DataInitializer implements CommandLineRunner {
     private List<Athlete> createAthletes(int quantidade) {
         List<Athlete> athletes = new ArrayList<>();
         for (int i = 1; i <= quantidade; i++) {
-            Athlete a = new Athlete(); a.setFullName("Athlete " + i); a.setNickName("Player" + i); a.setPass("senha"); athletes.add(a);
+            Athlete a = new Athlete(); a.setFullName("Athlete " + i); a.setNickName("Player" + i); a.setPass("senha"); a.setPhone("79999999"+i);athletes.add(a);
         }
         return athletes;
     }

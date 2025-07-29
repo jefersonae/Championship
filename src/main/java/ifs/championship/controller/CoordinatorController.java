@@ -28,4 +28,19 @@ public class CoordinatorController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping
+    public ResponseEntity<?> getAllCoordinators() {
+        return ResponseEntity.ok(coordinatorService.getAllCoordinators());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getCoordinatorById(@PathVariable Long id) {
+        var coordinator = coordinatorService.getCoordinatorById(id);
+        if (coordinator != null) {
+            return ResponseEntity.ok(coordinator);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

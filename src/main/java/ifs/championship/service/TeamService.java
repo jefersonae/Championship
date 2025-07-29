@@ -63,4 +63,13 @@ public class TeamService {
 
         return teamRepository.save(newTeam);
     }
+
+    public List<Team> getAllTeams() {
+        return teamRepository.findAll();
+    }
+
+    public Team getTeamById(Long id) {
+        return teamRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Team not found with id: " + id));
+    }
 }

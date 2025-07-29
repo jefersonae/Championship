@@ -5,9 +5,7 @@ import ifs.championship.model.Team;
 import ifs.championship.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/team")
@@ -29,6 +27,21 @@ public class TeamController {
             return ResponseEntity.status(201).body(newTeam);
         } catch (IllegalArgumentException | IllegalStateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAllTeams() {
+        return ResponseEntity.ok(teamService.getAllTeams());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getTeamById(@PathVariable Long id) {
+        Team team = teamService.getTeamById(id);
+        if (team != null) {
+            return ResponseEntity.ok(team);
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 }
