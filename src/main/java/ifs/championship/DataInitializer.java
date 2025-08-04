@@ -40,17 +40,17 @@ public class DataInitializer implements CommandLineRunner {
         Sport futsal = sportRepository.save(createSport("Futsal", 5, 10));
 
         List<Course> courses = new ArrayList<>();
-        for (int i = 1; i <= 6; i++) {
+        for (int i = 1; i <= 7; i++) {
             courses.add(createCourse("Curso de Tecnologia " + i, CourseLevel.SUPERIOR));
         }
         courseRepository.saveAll(courses);
 
-        List<Athlete> athletes = athleteRepository.saveAll(createAthletes(30));
+        List<Athlete> athletes = athleteRepository.saveAll(createAthletes(35));
         Coordinator coordinator = coordinatorRepository.save(createCoordinator("Prof. Ada Lovelace", "admin123", courses.get(0), "Ada@hotmail.com"));
         Event eventFutsal = eventRepository.save(createEvent("Copa de Futsal 2025", CourseLevel.SUPERIOR));
 
         // --- PASSO 2: CRIAR UMA EQUIPE PARA CADA CURSO E INSCREVÊ-LAS ---
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 7; i++) {
             Course cursoAtual = courses.get(i);
 
             int startIndex = i * 5;

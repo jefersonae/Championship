@@ -15,19 +15,11 @@ public class TeamController {
     private TeamService teamService;
 
     @PostMapping
-    public ResponseEntity<?> createTeam( TeamRegisterDTO teamDTO) {
-        try {
-            Team newTeam = teamService.createTeam(
-                    teamDTO.getTeamName(),
-                    teamDTO.getCourseId(),
-                    teamDTO.getSportId(),
-                    teamDTO.getCaptainId(),
-                    teamDTO.getAthleteEnrollment()
-            );
-            return ResponseEntity.status(201).body(newTeam);
-        } catch (IllegalArgumentException | IllegalStateException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+    public ResponseEntity<?> createTeam(@RequestBody TeamRegisterDTO teamDTO) {
+        if (teamDTO.getCourseId() == null || teamDTO.getSportId() == null || teamDTO.getCaptainId() == null) {
+            return ResponseEntity.badRequest().body("IDs não podem ser nulos");
         }
+        return ResponseEntity.ok(teamService.createTeam(teamDTO));
     }
 
     @GetMapping

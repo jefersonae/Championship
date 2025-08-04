@@ -1,5 +1,6 @@
 package ifs.championship.service;
 
+import ifs.championship.dto.TeamRegisterDTO;
 import ifs.championship.model.Athlete;
 import ifs.championship.model.Course;
 import ifs.championship.model.Sport;
@@ -28,7 +29,12 @@ public class TeamService {
     @Autowired
     private CaptainRepository captainRepository;
 
-    public Team createTeam(String teamName, Long courseId, Long sportId, Long captainId, List<Long> athleteEnrollment) {
+    public Team createTeam(TeamRegisterDTO teamDTO) {
+        String teamName = teamDTO.getTeamName();
+        Long courseId = teamDTO.getCourseId();
+        Long sportId = teamDTO.getSportId();
+        Long captainId = teamDTO.getCaptainId();
+        List<Long> athleteEnrollment = teamDTO.getAthleteEnrollment();
 
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new IllegalArgumentException("Course not found with id: " + courseId));

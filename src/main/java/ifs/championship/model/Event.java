@@ -1,5 +1,6 @@
 package ifs.championship.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import ifs.championship.model.enums.CourseLevel;
 import ifs.championship.model.enums.EventStatus;
 import jakarta.persistence.*;
@@ -23,9 +24,11 @@ public class Event {
     @Enumerated(EnumType.STRING)
     private EventStatus status;
 
-    @OneToMany(mappedBy = "event")
+    @JsonBackReference
+    @OneToMany(mappedBy = "event",fetch = FetchType.LAZY)
     private List<Inscription> inscriptions;
 
-    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
+    @JsonBackReference
+    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
     private List<Group> groups;
 }
